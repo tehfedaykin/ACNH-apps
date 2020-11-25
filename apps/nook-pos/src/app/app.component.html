@@ -1,0 +1,22 @@
+<h1>Nook POS</h1>
+
+<form #nookForm="ngForm">
+  <label for="name"></label>
+  <input type="text" class="form-control" 
+       required
+       [(ngModel)]="myFormObject.name" name="name">
+  <input type="text" class="form-control" 
+       required
+       [(ngModel)]="myFormObject.id" name="id">
+
+  <div class="repeating-div" *ngFor="let item of myFormObject.items; index as i;">
+    <div class="" ngModelGroup="item">
+      <input type="text" class="form-control" required [(ngModel)]="item.name" name="name_{{i}}">
+      <input type="text" class="form-control" required [(ngModel)]="item.price" name="price_{{i}}">
+    </div>
+
+  </div>
+  <button (click)="addItem()">add item</button>
+</form>
+{{nookForm | json}}
+<router-outlet></router-outlet>

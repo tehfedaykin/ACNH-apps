@@ -15,7 +15,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "strict": true,
+    "paths": {
+      "@animal-crossing/nook-ui": ["libs/nook-ui/src/index.ts"],
+      "@animal-crossing/api": ["libs/api/src/index.ts"],
+      "@env/frontend": ["environments/frontend/environment.ts"],
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

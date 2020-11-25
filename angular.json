@@ -32,8 +32,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/field-guide/src/environments/environment.ts",
-                  "with": "apps/field-guide/src/environments/environment.prod.ts"
+                  "replace": "environments/frontend/environment.ts",
+                  "with": "environments/frontend/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -121,6 +121,319 @@
             "tsConfig": ["apps/field-guide-e2e/tsconfig.e2e.json"],
             "exclude": ["**/node_modules/**", "!apps/field-guide-e2e/**/*"]
           }
+        }
+      }
+    },
+    "nook-pos": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "less"
+        }
+      },
+      "root": "apps/nook-pos",
+      "sourceRoot": "apps/nook-pos/src",
+      "prefix": "animal-crossing",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/nook-pos",
+            "index": "apps/nook-pos/src/index.html",
+            "main": "apps/nook-pos/src/main.ts",
+            "polyfills": "apps/nook-pos/src/polyfills.ts",
+            "tsConfig": "apps/nook-pos/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/nook-pos/src/favicon.ico",
+              "apps/nook-pos/src/assets"
+            ],
+            "styles": ["apps/nook-pos/src/styles.less"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "environments/frontend/environment.ts",
+                  "with": "environments/frontend/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "nook-pos:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "nook-pos:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "nook-pos:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/nook-pos/tsconfig.app.json",
+              "apps/nook-pos/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nook-pos/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/nook-pos/jest.config.js",
+            "tsConfig": "apps/nook-pos/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/nook-pos/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "nook-pos-e2e": {
+      "root": "apps/nook-pos-e2e",
+      "sourceRoot": "apps/nook-pos-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/nook-pos-e2e/cypress.json",
+            "tsConfig": "apps/nook-pos-e2e/tsconfig.e2e.json",
+            "devServerTarget": "nook-pos:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nook-pos:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/nook-pos-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/nook-pos-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "nook-ui": {
+      "projectType": "library",
+      "root": "libs/nook-ui",
+      "sourceRoot": "libs/nook-ui/src",
+      "prefix": "animal-crossing",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/nook-ui/tsconfig.lib.json",
+              "libs/nook-ui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/nook-ui/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/nook-ui/jest.config.js",
+            "tsConfig": "libs/nook-ui/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/nook-ui/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "less"
+        }
+      }
+    },
+    "villager": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "less"
+        }
+      },
+      "root": "apps/villager",
+      "sourceRoot": "apps/villager/src",
+      "prefix": "animal-crossing",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/villager",
+            "index": "apps/villager/src/index.html",
+            "main": "apps/villager/src/main.ts",
+            "polyfills": "apps/villager/src/polyfills.ts",
+            "tsConfig": "apps/villager/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/villager/src/favicon.ico",
+              "apps/villager/src/assets"
+            ],
+            "styles": [
+              "apps/villager/src/styles.less", 
+              "node_modules/angular-calendar/css/angular-calendar.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "environments/frontend/environment.ts",
+                  "with": "environments/frontend/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "villager:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "villager:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "villager:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/villager/tsconfig.app.json",
+              "apps/villager/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/villager/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/villager/jest.config.js",
+            "tsConfig": "apps/villager/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/villager/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "villager-e2e": {
+      "root": "apps/villager-e2e",
+      "sourceRoot": "apps/villager-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/villager-e2e/cypress.json",
+            "tsConfig": "apps/villager-e2e/tsconfig.e2e.json",
+            "devServerTarget": "villager:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "villager:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/villager-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/villager-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "api": {
+      "projectType": "library",
+      "root": "libs/api",
+      "sourceRoot": "libs/api/src",
+      "prefix": "animal-crossing",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api/tsconfig.lib.json",
+              "libs/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api/jest.config.js",
+            "tsConfig": "libs/api/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/api/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "less"
         }
       }
     }

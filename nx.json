@@ -28,6 +28,26 @@
     "field-guide-e2e": {
       "tags": [],
       "implicitDependencies": ["field-guide"]
+    },
+    "nook-pos": {
+      "tags": []
+    },
+    "nook-pos-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nook-pos"]
+    },
+    "nook-ui": {
+      "tags": []
+    },
+    "villager": {
+      "tags": []
+    },
+    "villager-e2e": {
+      "tags": [],
+      "implicitDependencies": ["villager"]
+    },
+    "api": {
+      "tags": []
     }
   }
 }
