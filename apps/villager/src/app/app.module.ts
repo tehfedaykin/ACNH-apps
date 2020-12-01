@@ -30,6 +30,12 @@ import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { BirthdayCalendarComponent } from './birthday-calendar/birthday-calendar.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './+state/reducers';
+import { VillagerEffects } from './+state/effects';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -74,6 +80,9 @@ import { BirthdayCalendarComponent } from './birthday-calendar/birthday-calendar
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    StoreModule.forRoot({villagerReducer: reducers}),
+    EffectsModule.forRoot([VillagerEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent],
