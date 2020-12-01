@@ -25,7 +25,9 @@
               "apps/field-guide/src/favicon.ico",
               "apps/field-guide/src/assets"
             ],
-            "styles": ["apps/field-guide/src/styles.less"],
+            "styles": [
+              "apps/field-guide/src/styles.less"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -83,7 +85,10 @@
               "apps/field-guide/tsconfig.app.json",
               "apps/field-guide/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/field-guide/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/field-guide/**/*"
+            ]
           }
         },
         "test": {
@@ -118,8 +123,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/field-guide-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/field-guide-e2e/**/*"]
+            "tsConfig": [
+              "apps/field-guide-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/field-guide-e2e/**/*"
+            ]
           }
         }
       }
@@ -148,7 +158,9 @@
               "apps/nook-pos/src/favicon.ico",
               "apps/nook-pos/src/assets"
             ],
-            "styles": ["apps/nook-pos/src/styles.less"],
+            "styles": [
+              "apps/nook-pos/src/styles.less"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -206,7 +218,10 @@
               "apps/nook-pos/tsconfig.app.json",
               "apps/nook-pos/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/nook-pos/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/nook-pos/**/*"
+            ]
           }
         },
         "test": {
@@ -241,8 +256,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/nook-pos-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/nook-pos-e2e/**/*"]
+            "tsConfig": [
+              "apps/nook-pos-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/nook-pos-e2e/**/*"
+            ]
           }
         }
       }
@@ -260,7 +280,10 @@
               "libs/nook-ui/tsconfig.lib.json",
               "libs/nook-ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/nook-ui/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/nook-ui/**/*"
+            ]
           }
         },
         "test": {
@@ -304,7 +327,7 @@
               "apps/villager/src/assets"
             ],
             "styles": [
-              "apps/villager/src/styles.less", 
+              "apps/villager/src/styles.less",
               "node_modules/angular-calendar/css/angular-calendar.css"
             ],
             "scripts": []
@@ -364,7 +387,10 @@
               "apps/villager/tsconfig.app.json",
               "apps/villager/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/villager/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/villager/**/*"
+            ]
           }
         },
         "test": {
@@ -399,8 +425,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/villager-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/villager-e2e/**/*"]
+            "tsConfig": [
+              "apps/villager-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/villager-e2e/**/*"
+            ]
           }
         }
       }
@@ -418,7 +449,10 @@
               "libs/api/tsconfig.lib.json",
               "libs/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/**/*"
+            ]
           }
         },
         "test": {
@@ -439,7 +473,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@datorama/akita"
   },
   "schematics": {
     "@nrwl/angular:application": {

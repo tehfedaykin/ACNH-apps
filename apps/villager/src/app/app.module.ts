@@ -30,6 +30,8 @@ import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { BirthdayCalendarComponent } from './birthday-calendar/birthday-calendar.component';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -74,6 +76,7 @@ import { BirthdayCalendarComponent } from './birthday-calendar/birthday-calendar
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
