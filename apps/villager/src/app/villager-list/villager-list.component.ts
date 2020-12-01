@@ -1,9 +1,11 @@
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AcnhService } from './../../../../../libs/api/src/lib/acnh.service';
 import { Villager, Personality, Species, Hobby, VillagerSortOptions } from '@animal-crossing/api';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
+import { map, startWith, tap } from 'rxjs/operators';
 
 
 @Component({
@@ -16,6 +18,7 @@ export class VillagerListComponent implements OnInit {
   @ViewChildren(MatCheckbox) checkboxes!: QueryList<MatCheckbox>;
 
   private villagers: Villager[] = [];
+  public displayedVillagers$! : Observable<Villager[]>;
   public displayedVillagers: Villager[] = [];
   private checkSelection: VillagerSortOptions[] = [];
   public sortOptions = ["personality", "species", "hobby", "birthday"];
@@ -37,17 +40,36 @@ export class VillagerListComponent implements OnInit {
     }
   ]
 
+  private selectedSortOption = new BehaviorSubject<VillagerSortOptions | undefined>(undefined);
+  private filterOptions = new BehaviorSubject<VillagerSortOptions[]>([]);
+
   constructor(private apiService: AcnhService) { }
 
   ngOnInit(): void {
-    this.apiService.getVillagers().subscribe((villagers: Villager[]) => {
-      this.displayedVillagers = this.villagers = villagers;
-    });
+
+    const villagers$ = this.apiService.getVillagers();
+    this.displayedVillagers$ = combineLatest([villagers$, this.selectedSortOption, this.filterOptions]).pipe(
+      map(([villagers, sortOption, filterOptions]) => {
+        const villagerList = filterOptions.length ?  villagers.filter((villager: Villager) => {
+          const villagerVals = Object.values(villager);
+          const villagerHasTrait = villagerVals.some(r=> filterOptions.includes(r));
+          return villagerHasTrait;
+        }) : villagers;
+
+        if(sortOption) {
+          return this.sortList(villagerList, sortOption);
+        }
+        else {
+          return villagerList
+        }
+      }),
+      tap((val) => console.log({val})),
+    );
   }
 
-  sortList(list: Villager[], property: VillagerSortOptions) {
+  sortList(list: Villager[], property: VillagerSortOptions): Villager[] {
     if(property === "birthday") {
-      list.sort(function(a,b){
+      return list.sort(function(a,b){
         var [dayA, monthA] = a.birthday.split('/');
         var dateA = new Date(2020, parseInt(monthA, 10), parseInt(dayA, 10));
 
@@ -76,12 +98,7 @@ export class VillagerListComponent implements OnInit {
 
   filterList() {
     this.accordion.close();
-    const filters = this.checkSelection;
-    this.displayedVillagers = this.villagers.filter((villager: Villager) => {
-      const villagerVals = Object.values(villager);
-      const villagerHasTrait = villagerVals.some(r=> filters.includes(r));
-      return villagerHasTrait;
-    })
+    this.filterOptions.next(this.checkSelection);
   }
 
   showFavorites(change: MatCheckboxChange) {
@@ -95,7 +112,7 @@ export class VillagerListComponent implements OnInit {
   }
 
   setSort(value: VillagerSortOptions) {
-    this.sortList(this.villagers, value);
+    this.selectedSortOption.next(value);
   }
 
   checkboxChecked(change: MatCheckboxChange) {
