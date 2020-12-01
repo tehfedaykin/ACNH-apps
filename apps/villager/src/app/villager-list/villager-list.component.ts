@@ -1,10 +1,7 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { AcnhService } from './../../../../../libs/api/src/lib/acnh.service';
-import { Villager, Personality, Species, Hobby, VillagerSortOptions } from '@animal-crossing/api';
+import { Villager, Personality, Species, Hobby, VillagerSortOptions, AcnhService} from '@animal-crossing/api';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
-
+import { MatExpansionPanel} from '@angular/material/expansion';
 
 @Component({
   selector: 'animal-crossing-villager-list',
@@ -100,12 +97,7 @@ export class VillagerListComponent implements OnInit {
 
   checkboxChecked(change: MatCheckboxChange) {
     const checkedValue = change.source.value as VillagerSortOptions;
-    if(change.checked) {
-      this.checkSelection.push(checkedValue)
-    }
-    else {
-      this.checkSelection = this.checkSelection.filter(item => item !== checkedValue)
-    }
+    this.checkSelection  = change.checked ? [...this.checkSelection, checkedValue] : this.checkSelection.filter(item => item !== checkedValue)
   }
 
   favoriteVillager(event: any, villagerToFav: Villager) {
