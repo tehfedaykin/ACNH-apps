@@ -1,7 +1,10 @@
+import { VillagerStateService } from './villager-state.service';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Villager, Personality, Species, Hobby, VillagerSortOptions, AcnhService} from '@animal-crossing/api';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatExpansionPanel} from '@angular/material/expansion';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'animal-crossing-villager-list',
@@ -12,87 +15,46 @@ export class VillagerListComponent implements OnInit {
   @ViewChild(MatExpansionPanel) accordion!: MatExpansionPanel;
   @ViewChildren(MatCheckbox) checkboxes!: QueryList<MatCheckbox>;
 
-  private villagers: Villager[] = [];
-  public displayedVillagers: Villager[] = [];
+  public displayedVillagers$!: Observable<Villager[]>;
   private checkSelection: VillagerSortOptions[] = [];
   public sortOptions = ["personality", "species", "hobby", "birthday"];
-  public personalities = Object.values(Personality);
-  public species = Object.values(Species);
-  public hobbies = Object.values(Hobby);
   public checkBoxList = [
     {
       attribute: 'personality',
-      list: this.personalities
+      list: Object.values(Personality)
     },
     {
       attribute: 'species',
-      list: this.species
+      list: Object.values(Species)
     },
     {
       attribute: 'hobby',
-      list: this.hobbies
+      list: Object.values(Hobby)
     }
   ]
 
-  constructor(private apiService: AcnhService) { }
+  constructor(private stateService: VillagerStateService) { }
 
   ngOnInit(): void {
-    this.apiService.getVillagers().subscribe((villagers: Villager[]) => {
-      this.displayedVillagers = this.villagers = villagers;
-    });
-  }
-
-  sortList(list: Villager[], property: VillagerSortOptions) {
-    if(property === "birthday") {
-      list.sort(function(a,b){
-        var [dayA, monthA] = a.birthday.split('/');
-        var dateA = new Date(2020, parseInt(monthA, 10), parseInt(dayA, 10));
-
-        var [dayB, monthB] = b.birthday.split('/');
-        var dateB = new Date(2020, parseInt(monthB, 10), parseInt(dayB, 10));
-
-        return dateA.getTime() - dateB.getTime()
-      });
-    }
-    else {
-      return list.sort(function(a, b) {
-        var nameA = a[property].toUpperCase();
-        var nameB = b[property].toUpperCase();
-  
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }    
-        return 0;
-      });
-    }
-
+    this.stateService.loadVillagers();
+    this.displayedVillagers$ = this.stateService.state$.pipe(
+      map((state) => this.stateService.updateDisplayedVillagers(state)),
+      tap((state) => console.log('state changed', state))
+    )
   }
 
   filterList() {
     this.accordion.close();
-    const filters = this.checkSelection;
-    this.displayedVillagers = this.villagers.filter((villager: Villager) => {
-      const villagerVals = Object.values(villager);
-      const villagerHasTrait = villagerVals.some(r=> filters.includes(r));
-      return villagerHasTrait;
-    })
+    this.stateService.selectFilters(this.checkSelection);
   }
 
   showFavorites(change: MatCheckboxChange) {
     this.accordion.close();
-    if(change.checked) {
-      this.displayedVillagers = this.villagers.filter(villager => villager.favorite);
-    }
-    else {
-      this.filterList();
-    }
+    this.stateService.showFavorites(change.checked);
   }
 
   setSort(value: VillagerSortOptions) {
-    this.sortList(this.villagers, value);
+    this.stateService.selectSort(value);
   }
 
   checkboxChecked(change: MatCheckboxChange) {
@@ -102,16 +64,11 @@ export class VillagerListComponent implements OnInit {
 
   favoriteVillager(event: any, villagerToFav: Villager) {
     event.stopPropagation();
-    this.villagers = this.villagers.map((villager) => {
-      if(villager.id === villagerToFav.id) {
-        villager.favorite = !villager.favorite;
-      }
-      return villager;
-    });
+    this.stateService.favoriteVillager(villagerToFav);
   }
 
   reset() {
-    this.displayedVillagers = this.villagers;
+    this.stateService.resetSortFilter();
     this.checkSelection = [];
     this.checkboxes.forEach((checkbox) => {
       if(checkbox.checked) {
