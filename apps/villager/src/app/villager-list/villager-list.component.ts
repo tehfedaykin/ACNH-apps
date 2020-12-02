@@ -16,21 +16,18 @@ export class VillagerListComponent implements OnInit {
   public displayedVillagers: Villager[] = [];
   private checkSelection: VillagerSortOptions[] = [];
   public sortOptions = ["personality", "species", "hobby", "birthday"];
-  public personalities = Object.values(Personality);
-  public species = Object.values(Species);
-  public hobbies = Object.values(Hobby);
   public checkBoxList = [
     {
       attribute: 'personality',
-      list: this.personalities
+      list: Object.values(Personality)
     },
     {
       attribute: 'species',
-      list: this.species
+      list: Object.values(Species)
     },
     {
       attribute: 'hobby',
-      list: this.hobbies
+      list: Object.values(Hobby)
     }
   ]
 
